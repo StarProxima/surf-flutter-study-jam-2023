@@ -6,6 +6,10 @@ import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holder
 
 import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
 
+import 'package:surf_flutter_study_jam_2023/models/ticket_status/ticket_status.dart';
+
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/managers/ticket_storage_manager.dart';
+
 Future<T?> showAddTicketBottomSheet<T>(BuildContext context) {
   return showModalBottomSheet(
     context: context,
@@ -21,6 +25,7 @@ class AddTicketBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final manager = ref.watch(ticketStorageManager);
     return SingleChildScrollView(
       child: Padding(
         padding:
@@ -72,14 +77,7 @@ class AddTicketBottomSheet extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                     ),
                     onPressed: () {
-                      ref.read(ticketStotagePageStateHolder.notifier).addTicket(
-                            Ticket(
-                              name: 'Ticket 1',
-                              url: Uri.parse(
-                                'https://example.com/api/fetch?limit=10,20,30&max=100',
-                              ),
-                            ),
-                          );
+                      manager.addTicketByUrl('https://www.google.com/');
                       Navigator.of(context).pop();
                     },
                     child: const Text('Добавить'),
