@@ -77,7 +77,7 @@ class AddTicketBottomSheetManager {
       ticketStotagePageStateHolder.addTicket(
         Ticket(
           name: uri.host,
-          url: uri,
+          url: url,
           status: TicketStatus.loadingPending,
           createDate: DateTime.now(),
         ),

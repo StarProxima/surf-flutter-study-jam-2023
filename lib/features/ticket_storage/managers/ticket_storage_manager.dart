@@ -56,7 +56,7 @@ class TicketStorageManager {
     ticketStotagePageStateHolderNotifier.addTicket(
       Ticket(
         name: uri.host,
-        url: uri,
+        url: url,
         status: TicketStatus.loadingPending,
         createDate: DateTime.now(),
       ),
@@ -64,12 +64,13 @@ class TicketStorageManager {
   }
 
   Future<void> downloadTicket(Ticket ticket) async {
-    final path =
-        (await getApplicationDocumentsDirectory()).path + ticket.url.path;
+    final uri = Uri.parse(ticket.url);
+    final path = (await getApplicationDocumentsDirectory()).path + uri.path;
 
     final newTicket = ticket.copyWith(
       status: TicketStatus.loading,
     );
+
     ticketStotagePageStateHolderNotifier.editTicket(newTicket);
 
     final cancelToken = CancelToken();
@@ -77,8 +78,8 @@ class TicketStorageManager {
 
     final notifer = getLoadingTicketStateNotifier(newTicket);
     try {
-      final res = await dio.downloadUri(
-        ticket.url,
+      await dio.downloadUri(
+        uri,
         path,
         cancelToken: cancelToken,
         onReceiveProgress: (count, total) {

@@ -20,9 +20,13 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Ticket {
+  @HiveField(0)
   String get name => throw _privateConstructorUsedError;
-  Uri get url => throw _privateConstructorUsedError;
+  @HiveField(1)
+  String get url => throw _privateConstructorUsedError;
+  @HiveField(2)
   TicketStatus get status => throw _privateConstructorUsedError;
+  @HiveField(3)
   DateTime get createDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +39,11 @@ abstract class $TicketCopyWith<$Res> {
   factory $TicketCopyWith(Ticket value, $Res Function(Ticket) then) =
       _$TicketCopyWithImpl<$Res, Ticket>;
   @useResult
-  $Res call({String name, Uri url, TicketStatus status, DateTime createDate});
+  $Res call(
+      {@HiveField(0) String name,
+      @HiveField(1) String url,
+      @HiveField(2) TicketStatus status,
+      @HiveField(3) DateTime createDate});
 }
 
 /// @nodoc
@@ -64,7 +72,7 @@ class _$TicketCopyWithImpl<$Res, $Val extends Ticket>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -83,7 +91,11 @@ abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
       __$$_TicketCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, Uri url, TicketStatus status, DateTime createDate});
+  $Res call(
+      {@HiveField(0) String name,
+      @HiveField(1) String url,
+      @HiveField(2) TicketStatus status,
+      @HiveField(3) DateTime createDate});
 }
 
 /// @nodoc
@@ -109,7 +121,7 @@ class __$$_TicketCopyWithImpl<$Res>
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
+              as String,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -124,23 +136,28 @@ class __$$_TicketCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
+@HiveType(typeId: 0)
 class _$_Ticket implements _Ticket {
   _$_Ticket(
-      {required this.name,
-      required this.url,
-      required this.status,
-      required this.createDate});
+      {@HiveField(0) required this.name,
+      @HiveField(1) required this.url,
+      @HiveField(2) required this.status,
+      @HiveField(3) required this.createDate});
 
   factory _$_Ticket.fromJson(Map<String, dynamic> json) =>
       _$$_TicketFromJson(json);
 
   @override
+  @HiveField(0)
   final String name;
   @override
-  final Uri url;
+  @HiveField(1)
+  final String url;
   @override
+  @HiveField(2)
   final TicketStatus status;
   @override
+  @HiveField(3)
   final DateTime createDate;
 
   @override
@@ -180,20 +197,24 @@ class _$_Ticket implements _Ticket {
 
 abstract class _Ticket implements Ticket {
   factory _Ticket(
-      {required final String name,
-      required final Uri url,
-      required final TicketStatus status,
-      required final DateTime createDate}) = _$_Ticket;
+      {@HiveField(0) required final String name,
+      @HiveField(1) required final String url,
+      @HiveField(2) required final TicketStatus status,
+      @HiveField(3) required final DateTime createDate}) = _$_Ticket;
 
   factory _Ticket.fromJson(Map<String, dynamic> json) = _$_Ticket.fromJson;
 
   @override
+  @HiveField(0)
   String get name;
   @override
-  Uri get url;
+  @HiveField(1)
+  String get url;
   @override
+  @HiveField(2)
   TicketStatus get status;
   @override
+  @HiveField(3)
   DateTime get createDate;
   @override
   @JsonKey(ignore: true)
