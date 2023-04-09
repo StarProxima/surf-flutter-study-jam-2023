@@ -22,6 +22,8 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) {
 mixin _$Ticket {
   String get name => throw _privateConstructorUsedError;
   Uri get url => throw _privateConstructorUsedError;
+  TicketStatus get status => throw _privateConstructorUsedError;
+  DateTime get createDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +35,7 @@ abstract class $TicketCopyWith<$Res> {
   factory $TicketCopyWith(Ticket value, $Res Function(Ticket) then) =
       _$TicketCopyWithImpl<$Res, Ticket>;
   @useResult
-  $Res call({String name, Uri url});
+  $Res call({String name, Uri url, TicketStatus status, DateTime createDate});
 }
 
 /// @nodoc
@@ -51,6 +53,8 @@ class _$TicketCopyWithImpl<$Res, $Val extends Ticket>
   $Res call({
     Object? name = null,
     Object? url = null,
+    Object? status = null,
+    Object? createDate = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -61,6 +65,14 @@ class _$TicketCopyWithImpl<$Res, $Val extends Ticket>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TicketStatus,
+      createDate: null == createDate
+          ? _value.createDate
+          : createDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -71,7 +83,7 @@ abstract class _$$_TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
       __$$_TicketCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, Uri url});
+  $Res call({String name, Uri url, TicketStatus status, DateTime createDate});
 }
 
 /// @nodoc
@@ -86,6 +98,8 @@ class __$$_TicketCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? url = null,
+    Object? status = null,
+    Object? createDate = null,
   }) {
     return _then(_$_Ticket(
       name: null == name
@@ -96,6 +110,14 @@ class __$$_TicketCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TicketStatus,
+      createDate: null == createDate
+          ? _value.createDate
+          : createDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -103,7 +125,11 @@ class __$$_TicketCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Ticket implements _Ticket {
-  _$_Ticket({required this.name, required this.url});
+  _$_Ticket(
+      {required this.name,
+      required this.url,
+      required this.status,
+      required this.createDate});
 
   factory _$_Ticket.fromJson(Map<String, dynamic> json) =>
       _$$_TicketFromJson(json);
@@ -112,10 +138,14 @@ class _$_Ticket implements _Ticket {
   final String name;
   @override
   final Uri url;
+  @override
+  final TicketStatus status;
+  @override
+  final DateTime createDate;
 
   @override
   String toString() {
-    return 'Ticket(name: $name, url: $url)';
+    return 'Ticket(name: $name, url: $url, status: $status, createDate: $createDate)';
   }
 
   @override
@@ -124,12 +154,15 @@ class _$_Ticket implements _Ticket {
         (other.runtimeType == runtimeType &&
             other is _$_Ticket &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.createDate, createDate) ||
+                other.createDate == createDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, url);
+  int get hashCode => Object.hash(runtimeType, name, url, status, createDate);
 
   @JsonKey(ignore: true)
   @override
@@ -146,8 +179,11 @@ class _$_Ticket implements _Ticket {
 }
 
 abstract class _Ticket implements Ticket {
-  factory _Ticket({required final String name, required final Uri url}) =
-      _$_Ticket;
+  factory _Ticket(
+      {required final String name,
+      required final Uri url,
+      required final TicketStatus status,
+      required final DateTime createDate}) = _$_Ticket;
 
   factory _Ticket.fromJson(Map<String, dynamic> json) = _$_Ticket.fromJson;
 
@@ -155,6 +191,10 @@ abstract class _Ticket implements Ticket {
   String get name;
   @override
   Uri get url;
+  @override
+  TicketStatus get status;
+  @override
+  DateTime get createDate;
   @override
   @JsonKey(ignore: true)
   _$$_TicketCopyWith<_$_Ticket> get copyWith =>
