@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/ui/widgets/add_ticket_bottom_sheet.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/ui/widgets/ticket_card.dart';
 
 /// Экран “Хранения билетов”.
@@ -22,7 +23,7 @@ class TicketStoragePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => showAddTicketBottomSheet(context),
         label: const Text('Добавить'),
       ),
     );

@@ -14,18 +14,21 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.primary,
     required this.text,
     required this.transperent,
+    required this.white,
   });
 
   final Color background;
   final Color primary;
   final Color text;
   final Color transperent;
+  final Color white;
 
   static final AppColors light = AppColors(
     background: _$AppColors.background[0],
     primary: _$AppColors.primary[0],
     text: _$AppColors.text[0],
     transperent: _$AppColors.transperent[0],
+    white: _$AppColors.white[0],
   );
 
   static final themes = [
@@ -38,12 +41,14 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? primary,
     Color? text,
     Color? transperent,
+    Color? white,
   }) {
     return AppColors(
       background: background ?? this.background,
       primary: primary ?? this.primary,
       text: text ?? this.text,
       transperent: transperent ?? this.transperent,
+      white: white ?? this.white,
     );
   }
 
@@ -55,6 +60,7 @@ class AppColors extends ThemeExtension<AppColors> {
       primary: Color.lerp(primary, other.primary, t)!,
       text: Color.lerp(text, other.text, t)!,
       transperent: Color.lerp(transperent, other.transperent, t)!,
+      white: Color.lerp(white, other.white, t)!,
     );
   }
 
@@ -68,7 +74,8 @@ class AppColors extends ThemeExtension<AppColors> {
             const DeepCollectionEquality().equals(primary, other.primary) &&
             const DeepCollectionEquality().equals(text, other.text) &&
             const DeepCollectionEquality()
-                .equals(transperent, other.transperent));
+                .equals(transperent, other.transperent) &&
+            const DeepCollectionEquality().equals(white, other.white));
   }
 
   @override
@@ -78,6 +85,7 @@ class AppColors extends ThemeExtension<AppColors> {
         const DeepCollectionEquality().hash(background),
         const DeepCollectionEquality().hash(primary),
         const DeepCollectionEquality().hash(text),
-        const DeepCollectionEquality().hash(transperent));
+        const DeepCollectionEquality().hash(transperent),
+        const DeepCollectionEquality().hash(white));
   }
 }
