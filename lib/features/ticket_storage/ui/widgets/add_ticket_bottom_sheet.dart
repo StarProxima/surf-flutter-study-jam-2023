@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:surf_flutter_study_jam_2023/styles/style_context_extenstion.dart';
 
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/ticket_stotage_page_state_holder.dart';
+
+import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
+
 Future<T?> showAddTicketBottomSheet<T>(BuildContext context) {
   return showModalBottomSheet(
     context: context,
@@ -68,6 +72,14 @@ class AddTicketBottomSheet extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                     ),
                     onPressed: () {
+                      ref.read(ticketStotagePageStateHolder.notifier).addTicket(
+                            Ticket(
+                              name: 'Ticket 1',
+                              url: Uri.parse(
+                                'https://example.com/api/fetch?limit=10,20,30&max=100',
+                              ),
+                            ),
+                          );
                       Navigator.of(context).pop();
                     },
                     child: const Text('Добавить'),

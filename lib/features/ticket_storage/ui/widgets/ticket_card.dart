@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
 import 'package:surf_flutter_study_jam_2023/styles/style_context_extenstion.dart';
 
+final _ticketCardTicket = Provider<Ticket>((ref) {
+  return throw UnimplementedError();
+});
+
 class TicketCard extends ConsumerWidget {
-  const TicketCard({super.key});
+  final Ticket ticket;
+
+  const TicketCard({
+    super.key,
+    required this.ticket,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // ProviderScope позволяет дать каждой карточке свою модель и избежать пересборки
+    return ProviderScope(
+      overrides: [_ticketCardTicket.overrideWithValue(ticket)],
+      child: const _TicketCard(),
+    );
+  }
+}
+
+class _TicketCard extends ConsumerWidget {
+  const _TicketCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ticket = ref.watch(_ticketCardTicket);
     return Row(
       children: [
         Icon(
@@ -19,7 +43,7 @@ class TicketCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Ticket',
+                ticket.name,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: context.colors.primary,
