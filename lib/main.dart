@@ -9,6 +9,9 @@ import 'package:surf_flutter_study_jam_2023/styles/app_theme.dart';
 
 import 'package:surf_flutter_study_jam_2023/models/ticket_status/ticket_status.dart';
 
+//navigator key
+final navigatorKey = GlobalKey<NavigatorState>();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
@@ -26,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = AppColors.light;
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Surf Flutter Study Jam 2023',
       theme: AppTheme.themeByStyles(colors: appColors),
       home: const TicketStoragePage(),

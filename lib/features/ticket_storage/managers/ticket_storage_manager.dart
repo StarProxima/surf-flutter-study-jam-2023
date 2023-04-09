@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/ticket_stotage_page_state_holder.dart';
+import 'package:surf_flutter_study_jam_2023/main.dart';
 
 import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
 import 'package:surf_flutter_study_jam_2023/models/ticket_status/ticket_status.dart';
@@ -13,6 +16,8 @@ import 'package:surf_flutter_study_jam_2023/models/loading_ticket_state/loading_
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/loading_ticket_provider.dart';
 
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/loading_ticket_cancel_token_provider.dart';
+
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/ui/widgets/pdf_viewer_page.dart';
 
 final ticketStorageManager = Provider<TicketStorageManager>((ref) {
   return TicketStorageManager(
@@ -111,5 +116,21 @@ class TicketStorageManager {
 
   void pauseDownloadTicket(Ticket ticket) {
     getLoadingTicketCancelTokenNotifier(ticket).state?.cancel();
+  }
+
+  void openTicket(Ticket ticket) async {
+    final uri = Uri.parse(ticket.url);
+    final path = (await getApplicationDocumentsDirectory()).path + uri.path;
+    final file = File(path);
+    navigatorKey.currentState!.push(
+      MaterialPageRoute(
+        builder: (context) {
+          return PdfViewerPage(
+            ticket: ticket,
+            file: file,
+          );
+        },
+      ),
+    );
   }
 }

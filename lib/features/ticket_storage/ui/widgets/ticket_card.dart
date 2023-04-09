@@ -110,6 +110,8 @@ class _TicketCard extends ConsumerWidget {
               manager.downloadTicket(ticket);
             } else if (status == TicketStatus.loading) {
               manager.pauseDownloadTicket(ticket);
+            } else if (status == TicketStatus.saved) {
+              manager.openTicket(ticket);
             }
           },
           icon: status == TicketStatus.loadingPending
