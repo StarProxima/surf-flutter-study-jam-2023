@@ -133,4 +133,12 @@ class TicketStorageManager {
       ),
     );
   }
+
+  void removeTicket(Ticket ticket) async {
+    final uri = Uri.parse(ticket.url);
+    final path = (await getApplicationDocumentsDirectory()).path + uri.path;
+    final file = File(path);
+    await file.delete();
+    ticketStotagePageStateHolderNotifier.removeTicket(ticket);
+  }
 }

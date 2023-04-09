@@ -48,4 +48,11 @@ class TicketStotagePageStateHolderNotifier
     );
     _save();
   }
+
+  void removeTicket(Ticket ticket) {
+    state = state.copyWith(
+      tickets: state.tickets.where((e) => e.url != ticket.url).toList(),
+    );
+    _save();
+  }
 }

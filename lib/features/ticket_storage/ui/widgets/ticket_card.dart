@@ -129,6 +129,19 @@ class _TicketCard extends ConsumerWidget {
                       color: context.colors.primary,
                     ),
         ),
+        if (status == TicketStatus.saved)
+          IconButton(
+            constraints: const BoxConstraints(),
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+            onPressed: () {
+              manager.removeTicket(ticket);
+            },
+            icon: Icon(
+              Icons.delete_outline,
+              color: context.colors.primary,
+            ),
+          ),
       ],
     );
   }
