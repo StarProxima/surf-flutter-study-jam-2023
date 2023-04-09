@@ -46,6 +46,15 @@ class _AddTicketBottomSheetState extends ConsumerState<AddTicketBottomSheet> {
       final successAdd = manager.tryAddTicket(state.controller.text);
 
       if (successAdd) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: context.colors.primary,
+            content: Text(
+              'Билет успешно добавлен',
+              style: TextStyle(color: context.colors.white),
+            ),
+          ),
+        );
         state.focusNode.unfocus();
         Navigator.of(context).pop();
       }
