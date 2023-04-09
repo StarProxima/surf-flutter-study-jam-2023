@@ -2,30 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:surf_flutter_study_jam_2023/styles/style_context_extenstion.dart';
 
-import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/ticket_stotage_page_state_holder.dart';
-
-import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
-
-import 'package:surf_flutter_study_jam_2023/models/ticket_status/ticket_status.dart';
-
-import 'package:surf_flutter_study_jam_2023/features/ticket_storage/managers/ticket_storage_manager.dart';
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/managers/add_ticket_bottom_sheet_manager.dart';
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/add_ticket_bottom_sheet_state_holder.dart';
 
 Future<T?> showAddTicketBottomSheet<T>(BuildContext context) {
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (context) {
-      return const AddTicketBottomSheet();
+      return Consumer(
+        builder: (context, ref, _) {
+          final manager = ref.watch(addTicketBottomSheetManager);
+          manager.invalidate();
+          return const AddTicketBottomSheet();
+        },
+      );
     },
   );
 }
 
-class AddTicketBottomSheet extends ConsumerWidget {
+class AddTicketBottomSheet extends ConsumerStatefulWidget {
   const AddTicketBottomSheet({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(ticketStorageManager);
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AddTicketBottomSheetState();
+}
+
+class _AddTicketBottomSheetState extends ConsumerState<AddTicketBottomSheet> {
+  late final TextEditingController controller;
+  late final FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
+    focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final manager = ref.watch(addTicketBottomSheetManager);
+    final state = ref.watch(addTicketBottomSheetStateHolder);
+
+    void tryAdd() {
+      final successAdd = manager.tryAddTicket(controller.text);
+
+      if (successAdd) {
+        focusNode.unfocus();
+        Navigator.of(context).pop();
+      }
+    }
+
     return SingleChildScrollView(
       child: Padding(
         padding:
@@ -46,9 +81,29 @@ class AddTicketBottomSheet extends ConsumerWidget {
               child: Column(
                 children: [
                   TextField(
-                    focusNode: FocusNode(),
+                    controller: controller,
+                    focusNode: focusNode,
+                    onSubmitted: manager.validate,
+                    onEditingComplete: tryAdd,
                     decoration: InputDecoration(
                       label: const Text('Введите url'),
+                      errorText: state.errorText,
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: context.colors.primary,
+                          width: 2,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: context.colors.primary,
+                          width: 2,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                      ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: context.colors.primary,
@@ -70,16 +125,13 @@ class AddTicketBottomSheet extends ConsumerWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: context.colors.primary,
-                      disabledBackgroundColor: context.colors.text,
+                      backgroundColor: state.allowAdding
+                          ? context.colors.primary
+                          : context.colors.text,
                       foregroundColor: context.colors.white,
-                      disabledForegroundColor: context.colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                     ),
-                    onPressed: () {
-                      manager.addTicketByUrl('https://www.google.com/');
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: tryAdd,
                     child: const Text('Добавить'),
                   ),
                   const SizedBox(height: 24),
