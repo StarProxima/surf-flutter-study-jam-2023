@@ -1,9 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/add_ticket_bottom_sheet_state_holder.dart';
-
-import 'package:surf_flutter_study_jam_2023/features/ticket_storage/models/add_ticket_bottom_sheet_model.dart';
 
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage/state_holders/ticket_stotage_page_state_holder.dart';
 import 'package:surf_flutter_study_jam_2023/models/ticket/ticket.dart';
@@ -32,43 +31,46 @@ class AddTicketBottomSheetManager {
     required this.ticketStotagePageStateHolder,
   });
 
-  void validate(String url) {
-    if (url.isEmpty) {
-      addTicketBottomSheetStateHolderNotifier.editErrorName('Введите url');
-      return;
-    }
-    // Это uri
-    if (Uri.tryParse(url) == null) {
-      addTicketBottomSheetStateHolderNotifier
-          .editErrorName('Введите корректный url');
-      return;
-    }
-    // uri заканчивается на .pdf
-    final path = Uri.parse(url).path;
-    if (!path.endsWith('.pdf')) {
-      addTicketBottomSheetStateHolderNotifier
-          .editErrorName('Файл должен быть в формате .pdf');
-      return;
+  String? check(String url) {
+    if (url.isEmpty) return 'Введите ссылку';
+    if (Uri.tryParse(url) == null) return 'Введите корректную ссылку';
+    if (!url.endsWith('.pdf')) return 'Файл должен быть в формате .pdf';
+    return null;
+  }
+
+  bool validate(String url) {
+    final error = check(url);
+    if (error != null) {
+      addTicketBottomSheetStateHolderNotifier.editErrorName(error);
+      return false;
     }
 
     addTicketBottomSheetStateHolderNotifier.editErrorName(null);
     addTicketBottomSheetStateHolderNotifier.editAllowAdding(true);
+    return true;
+  }
+
+  bool validateAllowAdding(String url) {
+    final error = check(url);
+    if (error != null) {
+      addTicketBottomSheetStateHolderNotifier.editAllowAdding(false);
+      return false;
+    }
+
+    addTicketBottomSheetStateHolderNotifier.editErrorName(null);
+    addTicketBottomSheetStateHolderNotifier.editAllowAdding(true);
+    return true;
   }
 
   void invalidate() async {
     await Future(() {});
-    addTicketBottomSheetStateHolderNotifier.edit(
-      AddTicketBottomSheetModel(
-        errorText: null,
-        allowAdding: false,
-      ),
-    );
+    addTicketBottomSheetStateHolderNotifier.invalidate();
   }
 
   bool tryAddTicket(String url) {
-    validate(url);
+    final isValid = validate(url);
 
-    if (addTicketBottomSheetStateHolderNotifier.state.allowAdding) {
+    if (isValid) {
       final uri = Uri.parse(url);
       ticketStotagePageStateHolder.addTicket(
         Ticket(
@@ -82,5 +84,17 @@ class AddTicketBottomSheetManager {
       return true;
     }
     return false;
+  }
+
+  Future<void> trySetUrlFormClipboard() async {
+    final data = await Clipboard.getData('text/plain');
+    final url = data?.text;
+
+    if (url == null) return;
+
+    final isValid = check(url) == null;
+    if (!isValid) return;
+
+    addTicketBottomSheetStateHolderNotifier.setText(url);
   }
 }

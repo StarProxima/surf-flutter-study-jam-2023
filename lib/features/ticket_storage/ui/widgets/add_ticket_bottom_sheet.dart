@@ -13,7 +13,7 @@ Future<T?> showAddTicketBottomSheet<T>(BuildContext context) {
       return Consumer(
         builder: (context, ref, _) {
           final manager = ref.watch(addTicketBottomSheetManager);
-          manager.invalidate();
+          manager.trySetUrlFormClipboard();
           return const AddTicketBottomSheet();
         },
       );
@@ -30,33 +30,23 @@ class AddTicketBottomSheet extends ConsumerStatefulWidget {
 }
 
 class _AddTicketBottomSheetState extends ConsumerState<AddTicketBottomSheet> {
-  late final TextEditingController controller;
-  late final FocusNode focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = TextEditingController();
-    focusNode = FocusNode();
-  }
+  late final manager = ref.watch(addTicketBottomSheetManager);
 
   @override
   void dispose() {
-    controller.dispose();
-    focusNode.dispose();
+    manager.invalidate();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final manager = ref.watch(addTicketBottomSheetManager);
     final state = ref.watch(addTicketBottomSheetStateHolder);
 
     void tryAdd() {
-      final successAdd = manager.tryAddTicket(controller.text);
+      final successAdd = manager.tryAddTicket(state.controller.text);
 
       if (successAdd) {
-        focusNode.unfocus();
+        state.focusNode.unfocus();
         Navigator.of(context).pop();
       }
     }
@@ -81,45 +71,15 @@ class _AddTicketBottomSheetState extends ConsumerState<AddTicketBottomSheet> {
               child: Column(
                 children: [
                   TextField(
-                    controller: controller,
-                    focusNode: focusNode,
+                    controller: state.controller,
+                    focusNode: state.focusNode,
+                    onChanged: manager.validateAllowAdding,
                     onSubmitted: manager.validate,
                     onEditingComplete: tryAdd,
+                    keyboardType: TextInputType.url,
                     decoration: InputDecoration(
                       label: const Text('Введите url'),
                       errorText: state.errorText,
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.colors.primary,
-                          width: 2,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.colors.primary,
-                          width: 2,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.colors.primary,
-                          width: 2,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: context.colors.primary,
-                          width: 2,
-                        ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 16),

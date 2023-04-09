@@ -15,6 +15,36 @@ class AppTheme {
       appBarTheme: theme.appBarTheme.copyWith(
         backgroundColor: colors.background,
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: colors.primary,
+            width: 2,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: colors.text,
+            width: 1.5,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: colors.error,
+            width: 2,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: colors.error,
+            width: 1.5,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+      ),
       extensions: [
         colors,
       ],

@@ -11,6 +11,7 @@ part of 'app_colors.dart';
 class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.background,
+    required this.error,
     required this.primary,
     required this.text,
     required this.transperent,
@@ -18,6 +19,7 @@ class AppColors extends ThemeExtension<AppColors> {
   });
 
   final Color background;
+  final Color error;
   final Color primary;
   final Color text;
   final Color transperent;
@@ -25,6 +27,7 @@ class AppColors extends ThemeExtension<AppColors> {
 
   static final AppColors light = AppColors(
     background: _$AppColors.background[0],
+    error: _$AppColors.error[0],
     primary: _$AppColors.primary[0],
     text: _$AppColors.text[0],
     transperent: _$AppColors.transperent[0],
@@ -38,6 +41,7 @@ class AppColors extends ThemeExtension<AppColors> {
   @override
   AppColors copyWith({
     Color? background,
+    Color? error,
     Color? primary,
     Color? text,
     Color? transperent,
@@ -45,6 +49,7 @@ class AppColors extends ThemeExtension<AppColors> {
   }) {
     return AppColors(
       background: background ?? this.background,
+      error: error ?? this.error,
       primary: primary ?? this.primary,
       text: text ?? this.text,
       transperent: transperent ?? this.transperent,
@@ -57,6 +62,7 @@ class AppColors extends ThemeExtension<AppColors> {
     if (other is! AppColors) return this;
     return AppColors(
       background: Color.lerp(background, other.background, t)!,
+      error: Color.lerp(error, other.error, t)!,
       primary: Color.lerp(primary, other.primary, t)!,
       text: Color.lerp(text, other.text, t)!,
       transperent: Color.lerp(transperent, other.transperent, t)!,
@@ -71,6 +77,7 @@ class AppColors extends ThemeExtension<AppColors> {
             other is AppColors &&
             const DeepCollectionEquality()
                 .equals(background, other.background) &&
+            const DeepCollectionEquality().equals(error, other.error) &&
             const DeepCollectionEquality().equals(primary, other.primary) &&
             const DeepCollectionEquality().equals(text, other.text) &&
             const DeepCollectionEquality()
@@ -83,6 +90,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(background),
+        const DeepCollectionEquality().hash(error),
         const DeepCollectionEquality().hash(primary),
         const DeepCollectionEquality().hash(text),
         const DeepCollectionEquality().hash(transperent),
