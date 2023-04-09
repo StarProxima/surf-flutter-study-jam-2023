@@ -23,5 +23,6 @@ Map<String, dynamic> _$$_TicketToJson(_$_Ticket instance) => <String, dynamic>{
 const _$TicketStatusEnumMap = {
   TicketStatus.loadingPending: 'loadingPending',
   TicketStatus.loading: 'loading',
+  TicketStatus.paused: 'paused',
   TicketStatus.saved: 'saved',
 };

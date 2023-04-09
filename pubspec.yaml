@@ -23,6 +23,8 @@ dependencies:
   url_launcher: ^6.1.10
 
   flutter_riverpod: ^2.3.4
+  dio: ^5.1.1
+  path_provider: ^2.0.14
 
 
 dev_dependencies:

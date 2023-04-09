@@ -29,4 +29,11 @@ class TicketStotagePageStateHolderNotifier
       tickets: [...state.tickets, ticket],
     );
   }
+
+  void editTicket(Ticket ticket) {
+    state = state.copyWith(
+      tickets:
+          state.tickets.map((e) => e.url == ticket.url ? ticket : e).toList(),
+    );
+  }
 }

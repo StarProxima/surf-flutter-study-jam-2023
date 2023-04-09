@@ -23,6 +23,7 @@ class AddTicketBottomSheetManager {
   @protected
   final AddTicketBottomSheetStateHolderNotifier
       addTicketBottomSheetStateHolderNotifier;
+
   @protected
   final TicketStotagePageStateHolderNotifier ticketStotagePageStateHolder;
 
@@ -33,8 +34,9 @@ class AddTicketBottomSheetManager {
 
   String? check(String url) {
     if (url.isEmpty) return 'Введите ссылку';
-    if (Uri.tryParse(url) == null) return 'Введите корректную ссылку';
-    if (!url.endsWith('.pdf')) return 'Файл должен быть в формате .pdf';
+    if (!RegExp(r'^https?:\/\/[^\s]+\.pdf$').hasMatch(url)) {
+      return 'Введите корректную ссылку на pdf файл';
+    }
     return null;
   }
 
